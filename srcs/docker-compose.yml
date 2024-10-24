@@ -1,0 +1,65 @@
+# version: '3.8'
+
+networks:
+  Inception:
+    name: Inception
+    driver: bridge
+
+volumes:
+  wordpress:
+    name: wordpress
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: "${HOME}/data/wordpress"
+  mariadb:
+    name: mariadb
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: "${HOME}/data/mariadb"
+
+services:
+  mariadb:
+    networks:
+      - Inception
+    volumes:
+      - mariadb:/var/lib/mysql
+    image: mariadb
+    build: requirements/mariadb
+    container_name: mariadb
+    env_file:
+      - .env
+  
+  wordpress:
+    depends_on:
+      - mariadb
+        # condition: service_healthy
+        
+    networks:
+      - Inception
+    volumes:
+      - wordpress:/home
+    image: wordpress
+    build: requirements/wordpress
+    container_name: wordpress
+    env_file:
+      - .env
+
+  nginx:
+    depends_on:
+      - wordpress #?
+    networks:
+      - Inception
+    volumes:
+      - wordpress:/home
+    image: nginx
+    build: requirements/nginx
+    container_name: nginx
+    ports:
+      - "443:443"
+  
+
+  
