@@ -1,4 +1,4 @@
-# version: '3.8'
+# version: '3.8' ??
 
 networks:
   Inception:
@@ -30,13 +30,19 @@ services:
     image: mariadb
     build: requirements/mariadb
     container_name: mariadb
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping"] #?
+      interval: 5s
+      timeout: 2s
+      retries: 2
     env_file:
       - .env
+    restart: on-failure
   
   wordpress:
     depends_on:
-      - mariadb
-        # condition: service_healthy
+      mariadb:
+        condition: service_healthy
         
     networks:
       - Inception
@@ -47,6 +53,7 @@ services:
     container_name: wordpress
     env_file:
       - .env
+    restart: on-failure
 
   nginx:
     depends_on:
@@ -60,6 +67,7 @@ services:
     container_name: nginx
     ports:
       - "443:443"
+    restart: on-failure
   
 
   

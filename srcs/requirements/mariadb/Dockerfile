@@ -1,6 +1,11 @@
-FROM mariadb:latest
+FROM debian:bullseye
 
-ENV MYSQL_ROOT_PASSWORD=my-secret-pw 
-ENV MYSQL_DATABASE=test 
-ENV MYSQL_USER=test1 
-ENV MYSQL_PASSWORD=test_password
+RUN apt-get update && apt-get install -y mariadb-server
+
+EXPOSE 3306
+
+COPY . .
+
+RUN chmod +x tools/mariadb.sh
+
+CMD ["./tools/mariadb.sh"]

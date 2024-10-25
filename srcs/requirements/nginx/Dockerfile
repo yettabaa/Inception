@@ -6,7 +6,5 @@ COPY . .
 
 RUN chmod +x tools/nginx.sh
 
-# EXPOSE 443 
-
 CMD ["/tools/nginx.sh"]
 

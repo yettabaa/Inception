@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mv conf/nginx.conf /etc/nginx/conf.d
+mv conf/nginx.conf /etc/nginx/nginx.conf
 
 mkdir /etc/nginx/ssl
 
@@ -9,11 +9,7 @@ openssl req -x509 -nodes -days 365 -newkey rsa:4096 \
         -out /etc/nginx/ssl/public_key.crt \
         -subj "/C=MA/ST=Casablanca/L=AINCHOCK/O=42/OU=1337/CN=yettabaa"
 
-echo 'daemon off;' >> etc/nginx/nginx.conf 
-
 nginx
-
-# bin/bash
 
 # Nginx (pronounced "engine-x") is a high-performance, open-source web server 
 # and reverse proxy server. It is widely used for serving static content, 
