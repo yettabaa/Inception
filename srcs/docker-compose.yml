@@ -30,19 +30,20 @@ services:
     image: mariadb
     build: requirements/mariadb
     container_name: mariadb
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping"] #?
-      interval: 5s
-      timeout: 2s
-      retries: 2
+    # healthcheck:
+    #   test: ["CMD", "mysqladmin", "ping"] #?
+    #   interval: 5s
+    #   timeout: 2s
+    #   retries: 2
     env_file:
       - .env
     restart: on-failure
   
   wordpress:
     depends_on:
-      mariadb:
-        condition: service_healthy
+      - mariadb
+      # mariadb:
+      #   condition: service_healthy
         
     networks:
       - Inception

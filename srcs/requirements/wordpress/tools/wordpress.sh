@@ -4,15 +4,19 @@ mv conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
 cd /home
 
-wp core download --allow-root
+if [ ! -f wp-config.php ]; then
 
-wp config create --allow-root \
-    --dbname="$DB_NAME" --dbuser="$DB_USER" --dbpass="$DB_PASS" --dbhost="$DB_HOST"
+    wp core download --allow-root
 
-wp core install  --allow-root \
-    --url="$URL" --title="$TITLE" --admin_user="$ADMIN_USER" --admin_password="$ADMIN_PASSWORD" --admin_email="$ADMIN_EMAIL"
+    wp config create --allow-root \
+        --dbname="$DB_NAME" --dbuser="$DB_USER" --dbpass="$DB_PASS" --dbhost="$DB_HOST"
 
-wp user create   --allow-root "$USER" "$USER_EMAIL" --user_pass="$USER_PASS"
+    wp core install  --allow-root \
+        --url="$URL" --title="$TITLE" --admin_user="$ADMIN_USER" --admin_password="$ADMIN_PASSWORD" --admin_email="$ADMIN_EMAIL"
+
+    wp user create   --allow-root "$USER" "$USER_EMAIL" --user_pass="$USER_PASS"
+
+fi
 
 mkdir -p /run/php
 
