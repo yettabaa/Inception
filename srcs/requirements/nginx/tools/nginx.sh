@@ -11,6 +11,8 @@ openssl req -x509 -nodes -days 365 -newkey rsa:4096 \
 
 nginx
 
+# The path /var/www/html is the default document root for NGINX on many Linux distributions,
+
 # Nginx (pronounced "engine-x") is a high-performance, open-source web server 
 # and reverse proxy server. It is widely used for serving static content, 
 # load balancing, and handling high traffic due to its ability to efficiently

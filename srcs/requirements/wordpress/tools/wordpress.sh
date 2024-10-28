@@ -2,19 +2,44 @@
 
 mv conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
-cd /home
+until mysql -h mariadb -u"$DB_USER" -p"$DB_PASS" -e "SELECT 1;" &> /dev/null; do
+  echo "Waiting for MariaDB..."
+  sleep 2
+done
+
+cd /var/www/html
+
 
 if [ ! -f wp-config.php ]; then
 
     wp core download --allow-root
 
-    wp config create --allow-root \
-        --dbname="$DB_NAME" --dbuser="$DB_USER" --dbpass="$DB_PASS" --dbhost="$DB_HOST"
+    wp config create --allow-root --dbname="$DB_NAME" --dbuser="$DB_USER" --dbpass="$DB_PASS" --dbhost="$DB_HOST"
 
-    wp core install  --allow-root \
-        --url="$URL" --title="$TITLE" --admin_user="$ADMIN_USER" --admin_password="$ADMIN_PASSWORD" --admin_email="$ADMIN_EMAIL"
+    wp core install  --allow-root --url="$URL" --title="$TITLE" --admin_user="$ADMIN_USER" --admin_password="$ADMIN_PASSWORD" --admin_email="$ADMIN_EMAIL"
 
     wp user create   --allow-root "$USER" "$USER_EMAIL" --user_pass="$USER_PASS"
+
+    # wp config  set WP_DEBUG true  --allow-root
+
+    #====bonus====#
+
+    wp config set WP_REDIS_HOST redis --add --allow-root
+
+    wp config set WP_REDIS_PORT 6379 --add --allow-root
+
+    wp config set WP_CACHE true --add --allow-root
+
+    wp plugin install redis-cache --allow-root
+
+    wp plugin activate redis-cache --allow-root
+
+    wp plugin update --all --allow-root
+
+    wp redis enable --allow-root
+
+    wp cache flush --allow-root
+
 
 fi
 

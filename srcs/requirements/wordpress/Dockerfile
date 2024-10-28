@@ -1,11 +1,13 @@
 FROM debian:bullseye
 
-RUN apt-get update && apt-get -y install wget php7.4-fpm php-mysql iputils-ping curl iproute2
+RUN apt-get update && apt-get -y install wget php7.4-fpm php-mysql iputils-ping curl iproute2 default-mysql-client
 
-RUN wget -O /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -O /usr/local/bin/wp && \
     chmod +x /usr/local/bin/wp
 
 COPY . .
+
+EXPOSE 21 20 40000:40005
 
 RUN chmod +x tools/wordpress.sh
 
