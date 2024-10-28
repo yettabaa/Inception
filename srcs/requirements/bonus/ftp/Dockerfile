@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-RUN apt-get update && apt-get -y install vsftpd net-tools iputils-ping netcat
+RUN apt-get update && apt-get -y install vsftpd netcat
 
 COPY . .
 

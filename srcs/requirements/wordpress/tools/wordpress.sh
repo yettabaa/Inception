@@ -20,8 +20,6 @@ if [ ! -f wp-config.php ]; then
 
     wp user create   --allow-root "$USER" "$USER_EMAIL" --user_pass="$USER_PASS"
 
-    # wp config  set WP_DEBUG true  --allow-root
-
     #====bonus====#
 
     wp config set WP_REDIS_HOST redis --add --allow-root
@@ -42,6 +40,8 @@ if [ ! -f wp-config.php ]; then
 
 
 fi
+
+unset $DB_USER $DB_PASS $ADMIN_USER $ADMIN_PASSWORD $USER $USER_PASS $FTP_USER $FTP_PASSWORD
 
 mkdir -p /run/php
 

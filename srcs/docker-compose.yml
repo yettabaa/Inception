@@ -1,4 +1,4 @@
-# version: '3.8' ??
+version: '3.8'
 
 networks:
   Inception:
@@ -30,21 +30,13 @@ services:
     image: mariadb
     build: requirements/mariadb
     container_name: mariadb
-    # healthcheck:
-    #   test: ["CMD", "mysqladmin", "ping"] #?
-    #   interval: 5s
-    #   timeout: 2s
-    #   retries: 2
     env_file:
       - .env
     restart: always
   
   wordpress:
     depends_on:
-      - mariadb
-      # mariadb:
-      #   condition: service_healthy
-        
+      - mariadb        
     networks:
       - Inception
     volumes:
@@ -58,7 +50,7 @@ services:
 
   nginx:
     depends_on:
-      - wordpress #?
+      - wordpress
     networks:
       - Inception
     volumes:
@@ -83,7 +75,7 @@ services:
     ports:
       - "21:21"
       - "20:20"
-      - "40000-40005:40000-40005"
+      - "1998-2002:1998-2002"
     env_file:
       - .env
     restart: always
@@ -125,7 +117,14 @@ services:
     ports:
       - "19999:19999"
     restart: always
-
+  
+  static:
+    networks:
+      - Inception
+    image: static
+    build: requirements/bonus/static
+    container_name: static
+    restart: always
   
 
   

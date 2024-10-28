@@ -8,8 +8,6 @@ while ! nc -z wordpress 9000; do
 done
 echo "WordPress is ready!"
 
-service vsftpd start
-
 useradd -m $FTP_USER
 
 echo  $FTP_USER:$FTP_PASSWORD | /usr/sbin/chpasswd
@@ -22,7 +20,9 @@ chown -R $FTP_USER:$FTP_USER /var/www/html
 
 echo "${FTP_USER}" >> /etc/vsftpd.userlist
 
-service vsftpd stop
+unset $DB_USER $DB_PASS $ADMIN_USER $ADMIN_PASSWORD $USER $USER_PASS $FTP_USER $FTP_PASSWORD
+
+mkdir -p /var/run/vsftpd/empty
 
 vsftpd /etc/vsftpd.conf
 
@@ -51,30 +51,3 @@ vsftpd /etc/vsftpd.conf
 # files, ideal for containerized applications requiring regular content updates, 
 # like WordPress.
 
-#!/bin/bash
-
-
-
-# mkdir -p "${FTP_CERTS_PATH}"
-
-# openssl genpkey -algorithm RSA -out "${FTP_CERTS_PATH}vsftpd.key" 2>/dev/null
-
-# openssl req -x509 -new -key "${FTP_CERTS_PATH}vsftpd.key" \
-#   -out "${FTP_CERTS_PATH}vsftpd.crt" \
-#   -days 365 -subj "/C=MA/ST=State/L=City/O=Organization/OU=Department/CN=localhost" 2>/dev/null
-
-# if id "$FTP_USER" &>/dev/null; then
-#     echo "${magenta}FTP user $FTP_USER already exists.${normal}"
-# else
-#     useradd -m -c "${FTP_USER_FULLNAME}" -s /bin/bash "${FTP_USER}"
-# fi
-
-# echo "${FTP_USER}:${FTP_PASSWORD}" | chpasswd
-
-# echo "${FTP_USER}" >> /etc/vsftpd.userlist
-
-# sed -i "s|rsa_cert_file=.*|rsa_cert_file=${FTP_CERTS_PATH}vsftpd.crt|" /etc/vsftpd.conf
-# sed -i "s|rsa_private_key_file=.*|rsa_private_key_file=${FTP_CERTS_PATH}vsftpd.key|" /etc/vsftpd.conf
-
-# chmod -R 777 /var/www/html
-# vsftpd /etc/vsftpd.conf

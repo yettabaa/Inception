@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-RUN apt-get update && apt-get -y install wget php7.4-fpm php-mysql iputils-ping curl iproute2 default-mysql-client
+RUN apt-get update && apt-get -y install wget php7.4-fpm php-mysql default-mysql-client
 
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -O /usr/local/bin/wp && \
     chmod +x /usr/local/bin/wp

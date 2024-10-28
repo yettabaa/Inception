@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-RUN apt-get update && apt-get -y install redis-server net-tools
+RUN apt-get update && apt-get -y install redis-server
 
 EXPOSE 6379
 
