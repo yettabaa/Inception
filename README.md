@@ -50,7 +50,7 @@ Create a multi-container Docker-based system to host a fully operational WordPre
 
 - The Nginx container acts as a reverse proxy, handling incoming HTTP requests from users on port 443 (HTTPS). It forwards these requests to the WordPress+PHP on port 9000, which hosts the WordPress site and dynamically processes PHP content. The WordPress+PHP connects to the Database (DB) container on port 3306, where all site data is stored and retrieved. This separation of concerns ensures that each service runs in its own container, making the system modular and scalable. Nginx, WordPress, and the DB container communicate seamlessly, with Nginx routing traffic, WordPress handling content and user requests, and the DB container managing the data behind the scenes.
 
-![Nginx](https://github.com/yettabaa/Inception/blob/master/assets/wordpress.pnj)
+![wordpress](https://github.com/yettabaa/Inception/blob/master/assets/wordpress.pnj)
 
 2. **FTP Container**
 - The FTP container enables users to upload and manage files for the WordPress site. It operates on standard FTP ports (20, 21) and an extended passive mode range (1998-2002) for secure file transfers.
