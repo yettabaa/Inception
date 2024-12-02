@@ -50,23 +50,23 @@ Create a multi-container Docker-based system to host a fully operational WordPre
 
 - The Nginx container acts as a reverse proxy, handling incoming HTTP requests from users on port 443 (HTTPS). It forwards these requests to the WordPress+PHP on port 9000, which hosts the WordPress site and dynamically processes PHP content. The WordPress+PHP connects to the Database (DB) container on port 3306, where all site data is stored and retrieved. This separation of concerns ensures that each service runs in its own container, making the system modular and scalable. Nginx, WordPress, and the DB container communicate seamlessly, with Nginx routing traffic, WordPress handling content and user requests, and the DB container managing the data behind the scenes.
 
-![wordpress](https://github.com/yettabaa/Inception/blob/master/assets/wordpress.pnj)
+![wordpress](https://github.com/yettabaa/Inception/blob/master/assets/wordpress.png)
 
 2. **FTP Container**
 - The FTP container enables users to upload and manage files for the WordPress site. It operates on standard FTP ports (20, 21) and an extended passive mode range (1998-2002) for secure file transfers.
 - To verify functionality, it is recommended to test the FTP connection using an FTP client like FileZilla, ensuring proper access and file management capabilities.
 
-![FTP](https://github.com/yettabaa/Inception/blob/master/assets/ftp.pnj)
+![FTP](https://github.com/yettabaa/Inception/blob/master/assets/ftp.png)
 
 3. **Redis Container (Caching)**
 - Redis is used to cache WordPress content, improving performance by storing frequently accessed data in memory. It communicates with both the WordPress container and the Redis container itself on port 6379.
 
-![Redis](https://github.com/yettabaa/Inception/blob/master/assets/redis.pnj)
+![Redis](https://github.com/yettabaa/Inception/blob/master/assets/redis.png)
 
 4. **Adminer Container (Database Management)**
 - Adminer provides a web-based interface for managing the MySQL database. It connects to the Nginx container on port 9001, allowing users to interact with the database through a browser.
 
-![Adminer](https://github.com/yettabaa/Inception/blob/master/assets/adminer.pnj)
+![Adminer](https://github.com/yettabaa/Inception/blob/master/assets/adminer.png)
 
 5. **Netdata Container (Monitoring)**
 - The Netdata container provides real-time monitoring and performance tracking for all containers and the host system linked to it. It offers detailed analytics and visual insights into resource usage, system health, and network activity.   
@@ -79,12 +79,12 @@ location /netdata/ {
 }
 ```
 
-![Netdata](https://github.com/yettabaa/Inception/blob/master/assets/netdata.pnj)
+![Netdata](https://github.com/yettabaa/Inception/blob/master/assets/netdata.png)
 
 6. **Static Website Container**
 - The Static Website container serves a static website (e.g., a landing page) through Nginx. This container is linked with the Nginx container via port 3000.
 
-![Static](https://github.com/yettabaa/Inception/blob/master/assets/static.pnj)
+![Static](https://github.com/yettabaa/Inception/blob/master/assets/static.png)
 
 ---
 
